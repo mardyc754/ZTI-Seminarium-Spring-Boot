@@ -1,7 +1,7 @@
-import '../App.css';
+import { PageWrapper } from '../components';
 
 function Home() {
-  return <div>Home page</div>;
+  return <PageWrapper title="Home"></PageWrapper>;
 }
 
 export default Home;
