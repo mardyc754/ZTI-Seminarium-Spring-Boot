@@ -1,29 +1,35 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Heading, Stack } from '@chakra-ui/react';
 
 type PageWrapperProps = {
-  title: string;
   children?: React.ReactNode;
 };
 
-const PageWrapper = ({ title, children }: PageWrapperProps) => {
+const PageWrapper = ({ children }: PageWrapperProps) => {
   return (
-    <Box w="100%" h="100%">
+    <Box display="flex" flexDirection={'column'}>
       <Box
+        bgColor="teal"
         as="header"
-        backgroundColor={'blue.500'}
         w="100%"
         p={4}
         color="white"
+        minHeight="15vh"
+        display="flex"
+        alignItems="center"
       >
-        NoteApp
+        <Heading as="h1">Note App</Heading>
       </Box>
-      <header />
-      <main>
-        <h1>{title}</h1>
+      <Stack
+        as="main"
+        flex="1"
+        minHeight="85vh"
+        backgroundColor="#eee"
+        padding={8}
+        gap="6"
+      >
         {children}
-      </main>
-      <footer />
+      </Stack>
     </Box>
   );
 };

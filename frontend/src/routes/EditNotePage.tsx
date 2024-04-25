@@ -8,11 +8,11 @@ import {
   Textarea
 } from '@chakra-ui/react';
 
-function AddNotePage() {
+function EditNotePage() {
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent={'space-between'}>
-        <Heading as="h2">Create note</Heading>
+        <Heading as="h2">Edit note</Heading>
       </Box>
       <Stack as="form" gap="4">
         <Stack>
@@ -28,11 +28,11 @@ function AddNotePage() {
           />
         </Stack>
         <Button colorScheme="teal" alignSelf="flex-end" type="submit">
-          Create
+          Save
         </Button>
       </Stack>
     </>
   );
 }
 
-export default AddNotePage;
+export default EditNotePage;
