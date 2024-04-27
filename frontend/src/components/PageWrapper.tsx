@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Heading, Stack } from '@chakra-ui/react';
+import { Box, Heading, Stack, Link } from '@chakra-ui/react';
 
 type PageWrapperProps = {
   children?: React.ReactNode;
@@ -18,7 +18,16 @@ const PageWrapper = ({ children }: PageWrapperProps) => {
         display="flex"
         alignItems="center"
       >
-        <Heading as="h1">Note App</Heading>
+        <Heading as="h1">
+          <Link
+            href="/"
+            _hover={{
+              textDecoration: 'none'
+            }}
+          >
+            Note App
+          </Link>
+        </Heading>
       </Box>
       <Stack
         as="main"

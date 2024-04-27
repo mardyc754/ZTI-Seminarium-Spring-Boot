@@ -45,8 +45,8 @@ public class NoteController {
         return response;
     }
 
-    @GetMapping("/get")
-    public Map<String, Object> get(@RequestParam Long id)
+    @GetMapping("/{id}")
+    public Map<String, Object> get(@PathVariable Long id)
     {
         Note note = noteService.get(id);
 

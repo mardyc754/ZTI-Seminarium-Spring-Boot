@@ -18,18 +18,16 @@ type NoteProps = {
 };
 
 const Note = ({ noteId, title, content, lastModified }: NoteProps) => {
-    console.log(noteId);
-
-    const handleDelete = () => {
-
-        fetch(`http://localhost:8080/note/delete/${noteId}`, {
-            method: 'DELETE',
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-        });
-    }
+  const handleDelete = () => {
+    fetch(`http://localhost:8080/note/delete/${noteId}`, {
+      method: 'DELETE'
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        window.location.reload();
+      });
+  };
 
   return (
     <Card>
@@ -45,7 +43,14 @@ const Note = ({ noteId, title, content, lastModified }: NoteProps) => {
             <Text>{lastModified.toLocaleString()}</Text>
             <ButtonGroup>
               <Button size="sm" colorScheme="teal">
-                <Link href={`/${noteId}/edit`}>Edit</Link>
+                <Link
+                  href={`/${noteId}/edit`}
+                  _hover={{
+                    textDecoration: 'none'
+                  }}
+                >
+                  Edit
+                </Link>
               </Button>
               <Button colorScheme="red" size="sm" onClick={handleDelete}>
                 Delete
@@ -60,6 +65,5 @@ const Note = ({ noteId, title, content, lastModified }: NoteProps) => {
   );
 };
 
-export type {NoteProps};
-export {Note};
-
+export type { NoteProps };
+export { Note };

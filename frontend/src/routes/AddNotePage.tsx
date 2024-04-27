@@ -7,31 +7,35 @@ import {
   Stack,
   Textarea
 } from '@chakra-ui/react';
-import {useState} from 'react';
+import { useState, type MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function AddNotePage() {
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-   
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+  const navigate = useNavigate();
 
-        const requestData = {
-            title: title,
-            content: content
-        };
-        console.log(requestData);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
 
-        fetch('http://localhost:8080/note/create', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestData),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-          });
-      }
+  const handleSubmit = (event: MouseEvent) => {
+    event.preventDefault();
+
+    const requestData = {
+      title: title,
+      content: content
+    };
+    console.log(requestData);
+
+    fetch('http://localhost:8080/note/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestData)
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        navigate('/');
+      });
+  };
 
   return (
     <>
@@ -41,7 +45,12 @@ function AddNotePage() {
       <Stack as="form" gap="4">
         <Stack>
           <FormLabel htmlFor="title">Title</FormLabel>
-          <Input placeholder="Enter note title" name="title" bg="white" onChange={(event) => setTitle(event.target.value)} />
+          <Input
+            placeholder="Enter note title"
+            name="title"
+            bg="white"
+            onChange={(event) => setTitle(event.target.value)}
+          />
         </Stack>
         <Stack>
           <FormLabel htmlFor="content">Content</FormLabel>
@@ -52,7 +61,12 @@ function AddNotePage() {
             onChange={(event) => setContent(event.target.value)}
           />
         </Stack>
-        <Button colorScheme="teal" alignSelf="flex-end" type="submit" onClick={handleSubmit}>
+        <Button
+          colorScheme="teal"
+          alignSelf="flex-end"
+          type="submit"
+          onClick={handleSubmit}
+        >
           Create
         </Button>
       </Stack>

@@ -7,33 +7,53 @@ import {
   Stack,
   Textarea
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect, type MouseEvent } from 'react';
+import { NoteData } from '../types';
 
 function EditNotePage() {
-    const noteId = window.location.pathname.split('/')[1];
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+  const { noteId } = useParams();
+  const navigate = useNavigate();
+  const [data, setData] = useState({
+    title: '',
+    content: ''
+  });
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+  useEffect(() => {
+    fetch(`http://localhost:8080/note/${noteId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const newNote = data.note as NoteData;
 
-        const requestData = {
-            id: noteId,
-            title: title,
-            content: content
-        };
-        console.log(requestData);
+        setData({
+          title: newNote.title,
+          content: newNote.content
+        });
 
-        fetch(`http://localhost:8080/note/update`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestData),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-          });
-      }
+        console.log(newNote);
+      });
+  }, [noteId]);
+
+  const handleSubmit = (event: MouseEvent) => {
+    event.preventDefault();
+
+    const requestData = {
+      id: noteId,
+      ...data
+    };
+    console.log(requestData);
+
+    fetch(`http://localhost:8080/note/update`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestData)
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        navigate('/');
+      });
+  };
 
   return (
     <>
@@ -43,18 +63,40 @@ function EditNotePage() {
       <Stack as="form" gap="4">
         <Stack>
           <FormLabel htmlFor="title">Title</FormLabel>
-          <Input placeholder="Enter note title" name="title" bg="white" onChange={(event) => setTitle(event.target.value)} />
+          <Input
+            placeholder="Enter note title"
+            name="title"
+            bg="white"
+            value={data.title}
+            onChange={(event) =>
+              setData((prev) => ({
+                ...prev,
+                title: event.target.value
+              }))
+            }
+          />
         </Stack>
         <Stack>
           <FormLabel htmlFor="content">Content</FormLabel>
           <Textarea
+            value={data.content}
             placeholder="Enter note content"
             bg="white"
             name="content"
-            onChange={(event) => setContent(event.target.value)}
+            onChange={(event) =>
+              setData((prev) => ({
+                ...prev,
+                content: event.target.value
+              }))
+            }
           />
         </Stack>
-        <Button colorScheme="teal" alignSelf="flex-end" type="submit" onClick={handleSubmit}>
+        <Button
+          colorScheme="teal"
+          alignSelf="flex-end"
+          type="submit"
+          onClick={handleSubmit}
+        >
           Save
         </Button>
       </Stack>
