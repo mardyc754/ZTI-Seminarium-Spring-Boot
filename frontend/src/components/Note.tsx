@@ -18,6 +18,19 @@ type NoteProps = {
 };
 
 const Note = ({ noteId, title, content, lastModified }: NoteProps) => {
+    console.log(noteId);
+
+    const handleDelete = () => {
+
+        fetch(`http://localhost:8080/note/delete/${noteId}`, {
+            method: 'DELETE',
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+        });
+    }
+
   return (
     <Card>
       <Box display="flex" justifyContent="space-between" alignItems={'center'}>
@@ -34,7 +47,7 @@ const Note = ({ noteId, title, content, lastModified }: NoteProps) => {
               <Button size="sm" colorScheme="teal">
                 <Link href={`/${noteId}/edit`}>Edit</Link>
               </Button>
-              <Button colorScheme="red" size="sm">
+              <Button colorScheme="red" size="sm" onClick={handleDelete}>
                 Delete
               </Button>
             </ButtonGroup>
@@ -47,4 +60,6 @@ const Note = ({ noteId, title, content, lastModified }: NoteProps) => {
   );
 };
 
-export default Note;
+export type {NoteProps};
+export {Note};
+
