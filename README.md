@@ -1,6 +1,5 @@
 
 # ZTI Seminarium - Narzędzie Spring Boot
----
 
 ## Wymagania
 
